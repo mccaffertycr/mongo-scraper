@@ -1,21 +1,19 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose'),
+      Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
-  title: {
+  headline: {
     type: String,
+    unique: true,
     required: true
   },
   link: {
     type: String, 
     required: true
   },
-  summary: {
-    type: String
-  },
-  byline: {
-    type: String
-  },
+  img_url: String,
+  summary: String,
+  byline: String,
   saved: {
     type: Boolean,
     default: false
@@ -26,7 +24,5 @@ const ArticleSchema = new Schema({
   }]
 });
 
-var Article = mongoose.model('Article', ArticleSchema);
 
-
-module.exports = Article;
+const Article = module.exports = mongoose.model('Article', ArticleSchema);

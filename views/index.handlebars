@@ -1,0 +1,28 @@
+<nav class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Mongo Scraper</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">home</a></li>
+      <li><a href="/saved">saved articles</a></li>
+      <li><a href="/scrape" class="btn btn-primary new-scrape">scrape articles</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  {{#each articles}} 
+    {{#unless this.saved}}
+    <div class="card">
+      {{!-- <img class="card-img-top" src={{this.img_url}} alt="Card image cap"> --}}
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.summary}}</p>
+        <a href={{this.link}} class="btn btn-link">link</a>
+        <button type="submit" class="btn btn-success">save</button>
+      </div>
+    </div>
+    {{/unless}}
+  {{/each}}
+</div>

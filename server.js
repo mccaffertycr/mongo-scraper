@@ -1,12 +1,12 @@
 require('dotenv').config();
-const express = require('express');
-const env = process.env.NODE_ENV || 'development';
-const app = express();
-const PORT = process.env.PORT || 3000;
-const bodyParser = require('body-parser');
-const request = require('request');
-var mongoose = require('mongoose');
-const exphbs = require('express-handlebars');
+const express = require('express'),
+      env = process.env.NODE_ENV || 'development',
+      app = express(),
+      PORT = process.env.PORT || 3000,
+      bodyParser = require('body-parser'),
+      exphbs = require('express-handlebars'),
+      mongoose = require('mongoose'),
+      config = require('./config/db');
 
 // for bodyparser
 app.use(express.static('public'));
@@ -22,10 +22,19 @@ app.set('views', './views');
 // const db = require('./models');
 
 // routes
-// require('./routes')(app);
+require('./routes/apiRoutes')(app);
+require('./routes/htmlRoutes')(app);
 
-// database
-mongoose.connect('mongodb://localhost/news_scraper', { useNewUrlParser: true });
+// database connection
+mongoose.Promise = Promise;
+mongoose
+  .connect(config.db, { useNewUrlParser: true })
+  .then(res => {
+    console.log(`Connected to database '${res.connections[0].name}' on ${res.connections[0].host}:${res.connections[0].port}`);
+  })
+  .catch(err => {
+    console.log('Connection Error: ', err);
+  });
 
 
 app.listen(PORT, function() {

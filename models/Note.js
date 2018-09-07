@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose'),
+      Schema = mongoose.Schema;
 
 const NoteSchema = new Schema({
   body: {
@@ -8,7 +8,5 @@ const NoteSchema = new Schema({
   }
 });
 
-var Note = mongoose.model('Note', NoteSchema);
 
-
-module.exports = Note;
+const Note = module.exports = mongoose.model('Note', NoteSchema);
