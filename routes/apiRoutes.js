@@ -4,9 +4,11 @@ const cheerio = require('cheerio'),
 
 module.exports = (app) => {
   app.get('/scrape', (req, res) => {
+
     request('https://www.nytimes.com/section/us', (err, res, body) => {
       var $ = cheerio.load(body);
       let newArticles = [];
+
       $('#latest-panel article.story.theme-summary').each((i, element) => {
         let newArticle = new db.Article({
           link: $(element).find('.story-body>.story-link').attr('href'),
@@ -17,16 +19,35 @@ module.exports = (app) => {
         });
 
         if (newArticle.link) {
-          newArticles.push(newArticle);
+          db.Article.create(
+            newArticle, 
+            (err, doc) => {
+              if (err) {
+                console.log(err)
+              } else {
+                console.log(doc);
+              }
+            }
+           );
         }
-      });
-      console.log(newArticles);
-      db.Article
-        .create(newArticles)
-        .then(res => console.log(res))
-        .catch(err => {});
 
-    })
+      });
+
+      // console.log(newArticles);
+
+      // db.Article.create(newArticles, (err, articles) => {
+      //   console.log(articles);
+      //   if (err) return err;
+      // });
+      // console.log(newArticles);
+      // db.Article
+      //   .create(newArticles)
+      //   .then(res => console.log(res))
+      //   .catch(err => {});
+    });
+
+    // reload page with new articles
+    res.redirect('/');
   });
 
 }
