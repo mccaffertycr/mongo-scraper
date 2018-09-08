@@ -1,16 +1,5 @@
-<div class="container">
-  {{#each articles}} 
-    {{#unless this.saved}}
-      <div class="card mb-1 mr-1" style="width: 18rem;">
-        <img class="card-img-top" src={{this.img_url}} alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{this.headline}}</h5>
-          <p class="card-text">{{this.summary}}</p>
-          <a href={{this.link}} class="btn btn-link">link</a>
-          <button type="submit" data-id={{this._id}} class="btn btn-success save">save</button>
-        </div>
-      </div>
-    {{/unless}}
-  {{/each}}
+<div class="jumbotron">
+  <h1>Mongo Scraper</h1>
+  <hr>
+  <h2>Scrape, Save and Note Articles from the New York Times</h2>
 </div>
-

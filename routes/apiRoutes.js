@@ -1,11 +1,11 @@
 const cheerio = require('cheerio'),
-      request = require('request'),
+      rp = require('request-promise'),
       db = require('../models');
 
 module.exports = (app) => {
-  app.get('/scrape', (req, res) => {
+  app.get('/new', (req, res) => {
 
-    request('https://www.nytimes.com/section/us', (err, res, body) => {
+    rp('https://www.nytimes.com/section/us', (err, res, body) => {
       var $ = cheerio.load(body);
 
       $('#latest-panel article.story.theme-summary').each((i, element) => {
@@ -18,9 +18,8 @@ module.exports = (app) => {
         });
 
         if (newArticle.link && newArticle.headline) {
-          db.Article.update(
+          db.Article.updateMany(
             newArticle,
-            { upsert: true },
             (err, doc) => {
               if (err) {
                 console.log(err)
@@ -30,20 +29,22 @@ module.exports = (app) => {
             }
            );
         }
-
+        
       });
 
+    })
+    .then(() => {
+      res.send(true);
+    })
+    .catch(err => console.log(err));
 
-    });
-
-    // reload page with new articles
-    res.redirect('/');
   });
+
 
   app.put('/saved', (req, res) => {
     let id = req.body.id;
     let isSaved = req.body.saved;
-    db.Article.update(
+    db.Article.updateOne(
       { _id: id },
       { saved: isSaved },
       (err, doc) => {
@@ -55,6 +56,6 @@ module.exports = (app) => {
       }
      );
 
-  })
+  });
 
 }

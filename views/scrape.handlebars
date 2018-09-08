@@ -1,15 +1,17 @@
 <div class="container">
   {{#each articles}} 
-    {{#if this.saved}}
+    {{#unless this.saved}}
       <div class="card mb-1 mr-1" style="width: 18rem;">
         <img class="card-img-top" src={{this.img_url}} alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">{{this.headline}}</h5>
           <p class="card-text">{{this.summary}}</p>
           <a href={{this.link}} class="btn btn-link">link</a>
-          <button type="submit" data-id={{this._id}} class="btn btn-success delete">delete</button>
+          <button type="submit" data-id={{this._id}} class="btn btn-success save" id="save">save</button>
         </div>
       </div>
-    {{/if}}
+    {{/unless}}
   {{/each}}
 </div>
+
+<script type="text/javascript" src="/assets/js/main.js"></script>
