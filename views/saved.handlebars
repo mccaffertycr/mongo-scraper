@@ -1,6 +1,6 @@
 <div class="container">
   {{#each articles}} 
-    {{#unless this.saved}}
+    {{#if this.saved}}
       <div class="card mb-1 mr-1" style="width: 18rem;">
         <img class="card-img-top" src={{this.img_url}} alt="Card image cap">
         <div class="card-body">
@@ -10,7 +10,6 @@
           <button type="submit" data-id={{this._id}} class="btn btn-success save">save</button>
         </div>
       </div>
-    {{/unless}}
+    {{/if}}
   {{/each}}
 </div>
-

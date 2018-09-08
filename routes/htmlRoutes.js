@@ -9,4 +9,13 @@ module.exports = (app) => {
       })
       .catch(err => console.log(err));
   });
+
+  app.get('/saved', (req, res) => {
+    db.Article
+      .find({})
+      .then(articles => {
+        res.render('saved', {articles});
+      })
+      .catch(err => console.log(err));
+  });
 }

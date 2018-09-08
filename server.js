@@ -35,6 +35,7 @@ mongoose
   .catch(err => {
     console.log('Connection Error: ', err);
   });
+mongoose.set('useCreateIndex', true);
 
 
 app.listen(PORT, function() {

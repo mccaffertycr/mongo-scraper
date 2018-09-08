@@ -7,7 +7,6 @@ module.exports = (app) => {
 
     request('https://www.nytimes.com/section/us', (err, res, body) => {
       var $ = cheerio.load(body);
-      let newArticles = [];
 
       $('#latest-panel article.story.theme-summary').each((i, element) => {
         let newArticle = new db.Article({
@@ -18,9 +17,10 @@ module.exports = (app) => {
           byLine  : $(element).find('p.byline').text().trim()
         });
 
-        if (newArticle.link) {
-          db.Article.create(
-            newArticle, 
+        if (newArticle.link && newArticle.headline) {
+          db.Article.update(
+            newArticle,
+            { upsert: true },
             (err, doc) => {
               if (err) {
                 console.log(err)
@@ -33,21 +33,28 @@ module.exports = (app) => {
 
       });
 
-      // console.log(newArticles);
 
-      // db.Article.create(newArticles, (err, articles) => {
-      //   console.log(articles);
-      //   if (err) return err;
-      // });
-      // console.log(newArticles);
-      // db.Article
-      //   .create(newArticles)
-      //   .then(res => console.log(res))
-      //   .catch(err => {});
     });
 
     // reload page with new articles
     res.redirect('/');
   });
+
+  app.put('/saved', (req, res) => {
+    let id = req.body.id;
+    let isSaved = req.body.saved;
+    db.Article.update(
+      { _id: id },
+      { saved: isSaved },
+      (err, doc) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(doc);
+        }
+      }
+     );
+
+  })
 
 }

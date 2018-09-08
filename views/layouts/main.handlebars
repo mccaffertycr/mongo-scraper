@@ -13,7 +13,24 @@
 
 <body>
 
+<nav class="navbar mb-1">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Mongo Scraper</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">home</a></li>
+      <li><a href="/saved">saved articles</a></li>
+      <li><a href="/scrape" class="btn btn-primary new-scrape">scrape articles</a></li>
+    </ul>
+  </div>
+</nav>
+
   {{{body}}}
+
+<div class="container-fluid footer">
+  <p>{{!--<a href="/saved">Saved Articles</a> | --}} <a href="https://github.com/mccaffertycr/mongo-scraper">GitHub Repo</a></p>
+</div>
 
 </body>
 
