@@ -55,7 +55,16 @@ module.exports = (app) => {
         }
       }
      );
+  });
 
+  app.delete('/saved', (req, res) => {
+    let id = req.body.id;
+    db.Article.deleteOne({
+      _id: id 
+    }, (err, doc) => { 
+      console.log(doc);
+      if (err) throw err
+    });
   });
 
 }
