@@ -1,14 +1,15 @@
-const cheerio = require('cheerio'),
-      rp = require('request-promise'),
-      db = require('../models');
+const cheerio = require('cheerio');
+const rp = require('request-promise');
+const db = require('../models');
 
 module.exports = (app) => {
   app.get('/new', (req, res) => {
 
     rp('https://www.nytimes.com/section/us', (err, res, body) => {
       var $ = cheerio.load(body);
-
+      let newArticles = [];
       $('#latest-panel article.story.theme-summary').each((i, element) => {
+        
         let newArticle = new db.Article({
           link: $(element).find('.story-body>.story-link').attr('href'),
           headline: $(element).find('h2.headline').text().trim(),
@@ -17,20 +18,29 @@ module.exports = (app) => {
           byLine  : $(element).find('p.byline').text().trim()
         });
 
-        if (newArticle.link && newArticle.headline) {
-          db.Article.updateMany(
-            newArticle,
-            (err, doc) => {
-              if (err) {
-                console.log(err)
-              } else {
-                console.log(doc);
-              }
-            }
-           );
+        // if (newArticle.link && newArticle.headline) {
+        //   db.Article.updateMany(
+        //     newArticle,
+        //     (err, doc) => {
+        //       if (err) {
+        //         console.log(err)
+        //       } else {
+        //         console.log(doc);
+        //       }
+        //     }
+        //    );
+        // }
+
+        if (newArticle.link) {
+          newArticles.push(newArticle);
         }
-        
+                
       });
+
+      db.Article
+          .create(newArticles)
+          .then(res => res.json({count: newArticles.length}))
+          .catch(err => {});
 
     })
     .then(() => {
@@ -54,7 +64,10 @@ module.exports = (app) => {
           console.log(doc);
         }
       }
-     );
+     )
+     .then(() => {
+       res.send(true);
+     })
   });
 
   app.delete('/saved', (req, res) => {

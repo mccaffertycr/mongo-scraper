@@ -24,9 +24,11 @@ $(document).ready(function() {
       url: '/saved',
       type: 'put',
       data: { id: id, saved: true },
-      success: function() {
-        console.log('article saved');
-        alert('article saved');
+      success: function(res) {
+        if (res) {
+          console.log('article saved');
+          alert('article saved');
+        }
       },
       error: function(err) {
         console.log(err);

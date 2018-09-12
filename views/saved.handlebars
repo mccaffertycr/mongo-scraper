@@ -1,15 +1,17 @@
 <div class="container">
-  {{#each articles}} 
-    {{#if this.saved}}
-      <div class="card mb-1 mr-1" style="width: 18rem;">
-        <img class="card-img-top" src={{this.img_url}} alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{this.headline}}</h5>
-          <p class="card-text">{{this.summary}}</p>
-          <a href={{this.link}} class="btn btn-link">link</a>
-          <button type="submit" data-id={{this._id}} class="btn btn-success delete">delete</button>
+  <div class="card-columns">
+    {{#each articles}} 
+      {{#if this.saved}}
+        <div class="card mb-1 mr-1" style="width: 18rem;">
+          <img class="card-img-top" src={{this.img_url}} alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{this.headline}}</h5>
+            <p class="card-text">{{this.summary}}</p>
+            <a href={{this.link}} class="btn btn-link">link</a>
+            <button type="submit" data-id={{this._id}} class="btn btn-success delete">delete</button>
+          </div>
         </div>
-      </div>
-    {{/if}}
-  {{/each}}
+      {{/if}}
+    {{/each}}
+  </div>
 </div>
