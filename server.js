@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 
+
 // for bodyparser
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));

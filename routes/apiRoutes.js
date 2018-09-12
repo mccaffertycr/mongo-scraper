@@ -4,52 +4,46 @@ const db = require('../models');
 
 module.exports = (app) => {
   app.get('/new', (req, res) => {
+    // find articles already saved in database and create an array of their headlines
+    db.Article
+      .find({})
+      .then((articles) => {
+        let articleHeadlines = articles.map(article => article.headline);
 
-    rp('https://www.nytimes.com/section/us', (err, res, body) => {
-      var $ = cheerio.load(body);
-      let newArticles = [];
-      $('#latest-panel article.story.theme-summary').each((i, element) => {
+        rp('https://www.nytimes.com/section/us', (err, res, body) => {
+          var $ = cheerio.load(body);
+          let newArticles = [];
+          $('#latest-panel article.story.theme-summary').each((i, element) => {
+
+            let newArticle = new db.Article({
+              link: $(element).find('.story-body>.story-link').attr('href'),
+              headline: $(element).find('h2.headline').text().trim(),
+              summary : $(element).find('p.summary').text().trim(),
+              img_url  : $(element).find('img').attr('src'),
+              byLine  : $(element).find('p.byline').text().trim()
+            });
+          
+            // ensure the article wasn't already entered into the database by checking against the array of saved headlines
+            if (newArticle.link && !articleHeadlines.includes(newArticle.headline)) {
+              newArticles.push(newArticle);
+            }
+
+          });
         
-        let newArticle = new db.Article({
-          link: $(element).find('.story-body>.story-link').attr('href'),
-          headline: $(element).find('h2.headline').text().trim(),
-          summary : $(element).find('p.summary').text().trim(),
-          img_url  : $(element).find('img').attr('src'),
-          byLine  : $(element).find('p.byline').text().trim()
-        });
+          db.Article
+              .create(newArticles)
+              .then(res => res.json({count: newArticles.length}))
+              .catch(err => {});
 
-        // if (newArticle.link && newArticle.headline) {
-        //   db.Article.updateMany(
-        //     newArticle,
-        //     (err, doc) => {
-        //       if (err) {
-        //         console.log(err)
-        //       } else {
-        //         console.log(doc);
-        //       }
-        //     }
-        //    );
-        // }
-
-        if (newArticle.link) {
-          newArticles.push(newArticle);
-        }
-                
-      });
-
-      db.Article
-          .create(newArticles)
-          .then(res => res.json({count: newArticles.length}))
-          .catch(err => {});
-
-    })
-    .then(() => {
-      res.send(true);
+        })
+        .then(() => {
+          res.send(true);
+        })
+        .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
 
   });
-
 
   app.put('/saved', (req, res) => {
     let id = req.body.id;
