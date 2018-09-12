@@ -2,16 +2,37 @@
   <div class="card-columns">
     {{#each articles}} 
       {{#if this.saved}}
-        <div class="card mb-1 mr-1" style="width: 18rem;">
+        <div class="card mb-1" style="width: 18rem;">
           <img class="card-img-top" src={{this.img_url}} alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">{{this.headline}}</h5>
             <p class="card-text">{{this.summary}}</p>
             <a href={{this.link}} class="btn btn-link">link</a>
-            <button type="submit" data-id={{this._id}} class="btn btn-success delete">delete</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notes-modal">notes</button>
+            <button type="submit" data-id={{this._id}} class="btn btn-danger delete">delete</button>            
           </div>
         </div>
       {{/if}}
     {{/each}}
+  </div>
+</div>
+
+<div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-labelledby="notesModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="notesModalLabel">Notes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" data-id={{this._id}} class="btn btn-success new-note">new</button>  
+      </div>
+    </div>
   </div>
 </div>

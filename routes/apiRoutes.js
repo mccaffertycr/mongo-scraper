@@ -3,6 +3,7 @@ const rp = require('request-promise');
 const db = require('../models');
 
 module.exports = (app) => {
+
   app.get('/new', (req, res) => {
     // find articles already saved in database and create an array of their headlines
     db.Article
@@ -10,7 +11,7 @@ module.exports = (app) => {
       .then((articles) => {
         let articleHeadlines = articles.map(article => article.headline);
 
-        rp('https://www.nytimes.com/section/us', (err, res, body) => {
+        rp('https://www.nytimes.com/section/us', (error, result, body) => {
           var $ = cheerio.load(body);
           let newArticles = [];
           $('#latest-panel article.story.theme-summary').each((i, element) => {
@@ -30,9 +31,13 @@ module.exports = (app) => {
 
           });
         
+          // enter the array of new articles into the database
           db.Article
               .create(newArticles)
-              .then(res => res.json({count: newArticles.length}))
+              .then((docs) => {
+                console.log(docs);
+                res.json({count: docs.length})
+              })
               .catch(err => {});
 
         })
@@ -46,6 +51,7 @@ module.exports = (app) => {
   });
 
   app.put('/saved', (req, res) => {
+
     let id = req.body.id;
     let isSaved = req.body.saved;
     db.Article.updateOne(
@@ -61,10 +67,12 @@ module.exports = (app) => {
      )
      .then(() => {
        res.send(true);
-     })
+     });
+
   });
 
   app.delete('/saved', (req, res) => {
+
     let id = req.body.id;
     db.Article.deleteOne({
       _id: id 
@@ -72,6 +80,7 @@ module.exports = (app) => {
       console.log(doc);
       if (err) throw err
     });
+    
   });
 
 }
