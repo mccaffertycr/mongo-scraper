@@ -29,16 +29,16 @@ module.exports = (app) => {
               newArticles.push(newArticle);
             }
 
-          });
+          }); 
         
           // enter the array of new articles into the database
           db.Article
-              .create(newArticles)
-              .then((docs) => {
-                console.log(docs);
-                res.json({count: docs.length})
-              })
-              .catch(err => {});
+            .create(newArticles)
+            .then((docs) => {
+              // res.json({count: docs.length});
+              console.log(docs);
+            })
+            .catch(err => console.log(err));
 
         })
         .then(() => {
@@ -80,7 +80,7 @@ module.exports = (app) => {
       console.log(doc);
       if (err) throw err
     });
-    
+
   });
 
 }

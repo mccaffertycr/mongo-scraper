@@ -3,12 +3,14 @@ const express = require('express');
 const env = process.env.NODE_ENV || 'development';
 const app = express();
 const PORT = process.env.PORT || 3000;
+const logger = require('morgan');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 
 
-// for bodyparser
+// for bodyparser & morgan
+app.use(logger('dev'));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -37,7 +39,8 @@ mongoose
 mongoose.set('useCreateIndex', true);
 
 
-app.listen(PORT, function() {
+// start server 
+app.listen(PORT, () => {
   console.log(
     '==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.',
     PORT,
