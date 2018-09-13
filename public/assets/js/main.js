@@ -52,4 +52,26 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '.new-note', function(e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    var title = $('#note-title').val().trim();
+    var body = $('#note-body').val().trim();
+    var newNote = {
+      title: title,
+      body: body
+    }
+    $.ajax({
+      url: '/new/note/' + id,
+      method: 'post',
+      data: newNote,
+      success: function() {
+        console.log('note created');
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+
 });
