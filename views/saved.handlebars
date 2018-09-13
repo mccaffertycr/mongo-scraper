@@ -7,12 +7,12 @@
             <h5 class="card-title">{{this.headline}}</h5>
             <p class="card-text">{{this.summary}}</p>
             <a href={{this.link}} class="btn btn-link">link</a>
-            <button type="button" data-id={{this._id}} class="btn btn-primary notes" data-toggle="modal" data-target="#notes-modal">notes</button>
+            <button type="button" data-id={{this._id}} class="btn btn-primary notes" data-toggle="modal" data-target="#{{this.headline_stub}}-modal">notes</button>
             <button type="submit" data-id={{this._id}} class="btn btn-danger delete">delete</button>            
           </div>
         </div>
 
-        <div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-labelledby="notesModalLabel" aria-hidden="true">
+        <div class="modal fade" id="{{this.headline_stub}}-modal" tabindex="-1" role="dialog" aria-labelledby="notesModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">

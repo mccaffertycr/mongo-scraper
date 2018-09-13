@@ -19,6 +19,7 @@ module.exports = (app) => {
             let newArticle = new db.Article({
               link: $(element).find('.story-body>.story-link').attr('href'),
               headline: $(element).find('h2.headline').text().trim(),
+              headline_stub: $(element).find('h2.headline').text().trim().split(' ')[0],
               summary : $(element).find('p.summary').text().trim(),
               img_url  : $(element).find('img').attr('src'),
               byLine  : $(element).find('p.byline').text().trim()

@@ -7,6 +7,7 @@ const ArticleSchema = new Schema({
     unique: true,
     required: true
   },
+  headline_stub: String,
   link: {
     type: String, 
     required: true
