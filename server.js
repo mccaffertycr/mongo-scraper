@@ -37,6 +37,7 @@ mongoose
     console.log('Database Connection Error: ', err);
   });
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 
 // start server 

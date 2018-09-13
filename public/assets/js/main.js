@@ -62,7 +62,7 @@ $(document).ready(function() {
       body: body
     }
     $.ajax({
-      url: '/new/note/' + id,
+      url: '/note/' + id,
       method: 'post',
       data: newNote,
       success: function() {

@@ -83,20 +83,19 @@ module.exports = (app) => {
 
   });
 
-  app.post('/new/note/:id', (req, res) => {
+  app.post('/note/:id', (req, res) => {
 
     let id = req.params.id;
     db.Note
       .create(req.body)
       .then(newNote => {
-        return db.Article.findOneAndUpdate({ _id: id }, { $push: { note: newNote._id } }, { new: true });
+        db.Article
+          .findOneAndUpdate({ _id: id }, { $push: { notes: newNote._id } }, { new: true })
+          .then(updatedArticle => res.json(updatedArticle))
+          .catch(err => console.log(err))
       })
-      .then(article => {
-        res.json(article);
-      })
-      .catch(err => {
-        res.json(err);
-      });
+      .catch(err => console.log(err)
+    );
 
   });
 

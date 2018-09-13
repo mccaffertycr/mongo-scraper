@@ -18,10 +18,12 @@ const ArticleSchema = new Schema({
     type: Boolean,
     default: false
   },
-  notes: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Note'
-  }]
+  notes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Note'
+    }
+  ]
 });
 
 

@@ -8,12 +8,12 @@
             <h5 class="card-title">{{this.headline}}</h5>
             <p class="card-text">{{this.summary}}</p>
             <a href={{this.link}} class="btn btn-link">link</a>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notes-modal">notes</button>
+            <button type="button" data-id={{this._id}} class="btn btn-primary notes" data-toggle="modal" data-target="#{{this._id}}-notes">notes</button>
             <button type="submit" data-id={{this._id}} class="btn btn-danger delete">delete</button>            
           </div>
         </div>
 
-        <div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-labelledby="notesModalLabel" aria-hidden="true">
+        <div class="modal fade" id="{{this._id}}-notes" tabindex="-1" role="dialog" aria-labelledby="notesModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -23,12 +23,24 @@
                 </button>
               </div>
               <div class="modal-body">
-                <input type="text" class="form-control" id="note-title" aria-describedby="noteTitle" placeholder="New Note">
-                <input type="text" class="form-control" id="note-body" aria-describedby="noteTitle" placeholder="...">
+              {{!-- {{#if this.notes}}
+                {{#each this.notes}}
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text">{{this.body}}</p>
+                  </div>
+                </div>
+                {{/each}}
+              {{/if}} --}}
+                <div class="form-group col-sm-12 text-right">
+                  <input type="text" class="form-control mb-1" id="note-title" aria-describedby="noteTitle" placeholder="New Note">
+                  <textarea type="text" class="form-control mb-1" id="note-body" aria-describedby="noteTitle" placeholder="..."></textarea>
+                  <button type="submit" class="btn btn-success col-sm-3 new-note" data-id={{this._id}}>+</button>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
-                <button type="submit" class="btn btn-success new-note" data-id={{this._id}}>new</button>  
               </div>
             </div>
           </div>
