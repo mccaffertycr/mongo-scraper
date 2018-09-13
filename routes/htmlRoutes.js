@@ -16,10 +16,12 @@ module.exports = (app) => {
 
   app.get('/saved', (req, res) => {
     db.Article
-      .find({})
+      .find({saved: true})
+      .populate('notes')
       .then(articles => {
         res.render('saved', {articles});
       })
       .catch(err => console.log(err));
   });
+
 }

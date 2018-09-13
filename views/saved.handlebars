@@ -1,19 +1,18 @@
 <div class="container">
   <div class="card-columns">
     {{#each articles}} 
-      {{#if this.saved}}
         <div class="card mb-1" style="width: 18rem;">
           <img class="card-img-top" src={{this.img_url}} alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">{{this.headline}}</h5>
             <p class="card-text">{{this.summary}}</p>
             <a href={{this.link}} class="btn btn-link">link</a>
-            <button type="button" data-id={{this._id}} class="btn btn-primary notes" data-toggle="modal" data-target="#{{this._id}}-notes">notes</button>
+            <button type="button" data-id={{this._id}} class="btn btn-primary notes" data-toggle="modal" data-target="#notes-modal">notes</button>
             <button type="submit" data-id={{this._id}} class="btn btn-danger delete">delete</button>            
           </div>
         </div>
 
-        <div class="modal fade" id="{{this._id}}-notes" tabindex="-1" role="dialog" aria-labelledby="notesModalLabel" aria-hidden="true">
+        <div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-labelledby="notesModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -23,16 +22,17 @@
                 </button>
               </div>
               <div class="modal-body">
-              {{!-- {{#if this.notes}}
+              {{#if this.notes}}
                 {{#each this.notes}}
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title">{{this.title}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted" style="font-size: 12px;">Created: {{this.createdAt}}</h6>
                     <p class="card-text">{{this.body}}</p>
                   </div>
                 </div>
                 {{/each}}
-              {{/if}} --}}
+              {{/if}}
                 <div class="form-group col-sm-12 text-right">
                   <input type="text" class="form-control mb-1" id="note-title" aria-describedby="noteTitle" placeholder="New Note">
                   <textarea type="text" class="form-control mb-1" id="note-body" aria-describedby="noteTitle" placeholder="..."></textarea>
@@ -45,7 +45,6 @@
             </div>
           </div>
         </div>
-      {{/if}}
     {{/each}}
   </div>
 </div>
