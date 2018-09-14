@@ -51,6 +51,19 @@ module.exports = (app) => {
 
   });
 
+  app.delete('/scrape', (req, res) => {
+    db.Article
+      .deleteMany({
+        saved: false
+      }, (err, result) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(result);
+        }
+      }).then(() => res.send(true));
+  });
+
   app.put('/saved', (req, res) => {
 
     let id = req.body.id;

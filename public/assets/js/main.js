@@ -17,6 +17,23 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#clear', function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: '/scrape',
+      type: 'delete',
+      success: function(res) {
+        if (res){
+          console.log('scraped articles cleared');
+          $('.scraped-articles').empty();
+        }
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+
   $(document).on('click', '.save', function(e) {
     e.preventDefault();
     var id = $(this).data('id');  
