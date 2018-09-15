@@ -4,7 +4,8 @@ const db = require('../models');
 
 module.exports = (app) => {
 
-  app.get('/new', (req, res) => {
+  app.get('/scrape', (req, res) => {
+
     // find articles already saved in database and create an array of their headlines
     db.Article
       .find({})
@@ -26,7 +27,7 @@ module.exports = (app) => {
             });
           
             // ensure the article wasn't already entered into the database by checking against the array of saved headlines
-            if (newArticle.link && !articleHeadlines.includes(newArticle.headline)) {
+            if (newArticle.link && newArticle.img_url && !articleHeadlines.includes(newArticle.headline)) {
               newArticles.push(newArticle);
             }
 
@@ -35,20 +36,19 @@ module.exports = (app) => {
           // enter the array of new articles into the database
           db.Article
             .create(newArticles)
-            .then((docs) => {
-              // res.json({count: docs.length});
-              console.log(docs);
+            .then(docs => {
+              if (newArticles && docs) {
+                res.render('scrape', {articles: docs});
+              } else {
+                res.render('scrape', {articles});
+              }
             })
             .catch(err => console.log(err));
-
-        })
-        .then(() => {
-          res.send(true);
         })
         .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
-
+  
   });
 
   app.delete('/scrape', (req, res) => {

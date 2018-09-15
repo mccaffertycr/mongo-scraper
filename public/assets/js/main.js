@@ -2,11 +2,12 @@ $(document).ready(function() {
 
   $(document).on('click', '.new-scrape', function(e) {
     e.preventDefault();
+    // var data = {newScrape: true};
+    
     $.ajax({
-      url: '/new',
+      url: '/scrape',
       type: 'get',
       success: function(res) {
-        console.log('successfully scraped articles');
         if (res) {
           window.location.replace('/scrape');
         }
@@ -15,6 +16,7 @@ $(document).ready(function() {
         console.log(err);
       }
     });
+
   });
 
   $(document).on('click', '#clear', function(e) {
