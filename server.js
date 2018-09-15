@@ -21,8 +21,10 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 // routes
-require('./routes/apiRoutes')(app);
-require('./routes/htmlRoutes')(app);
+require('./routes/index')(app);
+require('./routes/scrape')(app);
+require('./routes/saved')(app);
+require('./routes/note')(app);
 
 // database connection
 const config = require('./config/db');

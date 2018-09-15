@@ -64,53 +64,13 @@ module.exports = (app) => {
       }).then(() => res.send(true));
   });
 
-  app.put('/saved', (req, res) => {
-
-    let id = req.body.id;
-    let isSaved = req.body.saved;
-    db.Article.updateOne(
-      { _id: id },
-      { saved: isSaved },
-      (err, doc) => {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log(doc);
-        }
-      }
-     )
-     .then(() => {
-       res.send(true);
-     });
-
-  });
-
-  app.delete('/saved', (req, res) => {
-
-    let id = req.body.id;
-    db.Article.deleteOne({
-      _id: id 
-    }, (err) => {
-      res.send(true);
-      if (err) throw err
-    });
-
-  });
-
-  app.post('/note/:id', (req, res) => {
-
-    let id = req.params.id;
-    db.Note
-      .create(req.body)
-      .then(newNote => {
-        db.Article
-          .findOneAndUpdate({ _id: id }, { $push: { notes: newNote._id } }, { new: true })
-          .then(() => res.json(newNote))
-          .catch(err => console.log(err))
+  app.get('/api/articles', (req, res) => {
+    db.Article
+      .find({})
+      .then(articles => {
+        res.json(articles);
       })
-      .catch(err => console.log(err)
-    );
-
+      .catch(err => res.json(err));
   });
 
 }
