@@ -97,7 +97,7 @@ $(document).ready(function() {
         let noteCard = $(`<div>`).addClass('card');
         let noteCardBody = $('<div>').addClass('card-body');
         noteCardBody.append(`<h5 class="card-title">${newNote.title}</h5>`)
-                    .append(`<h6 class="card-subtitle mb-2 text-muted" style="font-size: 12px;">${newNote.createdAt}</h6>`)
+                    .append(`<h6 class="card-subtitle mb-2 text-muted" style="font-size: 12px;">Created: ${newNote.createdAt}</h6>`)
                     .append(`<p class="card-text">${newNote.body}</p>`);
         noteCard.append(noteCardBody);
         $(`#${stub}-notes`).prepend(noteCard);
