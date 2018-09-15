@@ -55,12 +55,16 @@ $(document).ready(function() {
 
   $(document).on('click', '.delete', function(e) {
     e.preventDefault();
+    var stub = $(this).data('stub');
     var id = $(this).data('id');
     $.ajax({
         url: '/saved',
         method: 'delete',
         data: { id: id },
-        success: function() {
+        success: function(res) {
+          if (res) {
+            $(`#${stub}-card`).remove();
+          }
           console.log('article deleted');
         },
         error: function(err) {
@@ -70,10 +74,12 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '.new-note', function(e) {
+
     e.preventDefault();
+    var stub = $(this).data('stub');
     var id = $(this).data('id');
-    var title = $('#note-title').val().trim();
-    var body = $('#note-body').val().trim();
+    var title = $(`#${stub}-title`).val().trim();
+    var body = $(`#${stub}-body`).val().trim();
     var newNote = {
       title: title,
       body: body
@@ -82,13 +88,23 @@ $(document).ready(function() {
       url: '/note/' + id,
       method: 'post',
       data: newNote,
-      success: function() {
+      success: function(newNote) {
         console.log('note created');
+        $(`#${stub}-title`).empty();
+        $(`#${stub}-body`).empty();
+        let noteCard = $(`<div>`).addClass('card');
+        let noteCardBody = $('<div>').addClass('card-body');
+        noteCardBody.append(`<h5 class="card-title">${newNote.title}</h5>`)
+                    .append(`<h6 class="card-subtitle mb-2 text-muted" style="font-size: 12px;">${newNote.createdAt}</h6>`)
+                    .append(`<p class="card-text">${newNote.body}</p>`);
+        noteCard.append(noteCardBody);
+        $(`#${stub}-notes`).prepend(noteCard);
       },
       error: function(err) {
         console.log(err);
       }
     });
+
   });
 
 });

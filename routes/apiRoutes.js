@@ -90,8 +90,8 @@ module.exports = (app) => {
     let id = req.body.id;
     db.Article.deleteOne({
       _id: id 
-    }, (err, doc) => { 
-      console.log(doc);
+    }, (err) => {
+      res.send(true);
       if (err) throw err
     });
 
@@ -105,7 +105,7 @@ module.exports = (app) => {
       .then(newNote => {
         db.Article
           .findOneAndUpdate({ _id: id }, { $push: { notes: newNote._id } }, { new: true })
-          .then(updatedArticle => res.json(updatedArticle))
+          .then(() => res.json(newNote))
           .catch(err => console.log(err))
       })
       .catch(err => console.log(err)
