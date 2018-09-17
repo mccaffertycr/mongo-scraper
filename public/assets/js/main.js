@@ -2,7 +2,6 @@ $(document).ready(function() {
 
   $(document).on('click', '.new-scrape', function(e) {
     e.preventDefault();
-    // var data = {newScrape: true};
     
     $.ajax({
       url: '/scrape',
@@ -82,6 +81,8 @@ $(document).ready(function() {
     var id = $(this).data('id');
     var title = $(`#${stub}-title`).val().trim();
     var body = $(`#${stub}-body`).val().trim();
+    $(`#${stub}-title`).val('');
+    $(`#${stub}-body`).val('');
     var newNote = {
       title: title,
       body: body
@@ -92,8 +93,6 @@ $(document).ready(function() {
       data: newNote,
       success: function(newNote) {
         console.log('note created');
-        $(`#${stub}-title`).empty();
-        $(`#${stub}-body`).empty();
         let noteCard = $(`<div>`).addClass('card');
         let noteCardBody = $('<div>').addClass('card-body');
         noteCardBody.append(`<h5 class="card-title">${newNote.title}</h5>`)
